@@ -126,7 +126,7 @@ export default function ProfileChat() {
             <Header />
 
             <div className="bg-[#F2F4F5] py-4">
-                <div className="mx-auto max-w-7xl">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <Breadcrumbs
                         breadcrumbs={[
                             { title: 'Главная', href: '/' },
@@ -138,18 +138,18 @@ export default function ProfileChat() {
                 </div>
             </div>
 
-            <div className="mx-auto max-w-7xl py-12">
-                <div className="grid grid-cols-12 gap-6">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                     {/* Sidebar */}
-                    <div className="col-span-3">
+                    <div className="lg:col-span-3 order-1 lg:order-1">
                         <ProfileSidebar />
                     </div>
 
                     {/* Main Content */}
-                    <div className="col-span-9">
-                        <div className="grid grid-cols-12 gap-0 bg-white rounded-sm border border-gray-200 h-[700px]">
+                    <div className="lg:col-span-9 order-2 lg:order-2">
+                        <div className="flex flex-col md:grid md:grid-cols-12 gap-0 bg-white rounded-lg border border-gray-200 h-auto md:h-[700px] shadow-sm overflow-hidden">
                             {/* Contacts List */}
-                            <div className="col-span-4 border-r border-gray-200 flex flex-col">
+                            <div className="md:col-span-4 border-b md:border-b-0 md:border-r border-gray-200 flex flex-col h-[350px] md:h-full bg-gray-50 md:bg-white">
                                 {/* Search */}
                                 <div className="p-4 border-b border-gray-200">
                                     <div className="relative">
@@ -231,7 +231,7 @@ export default function ProfileChat() {
                             </div>
 
                             {/* Chat Area */}
-                            <div className="col-span-8 flex flex-col">
+                            <div className="md:col-span-8 flex flex-col h-[500px] md:h-full">
                                 {/* Chat Header */}
                                 <div className="p-4 border-b border-gray-200 flex items-center justify-between">
                                     <div className="flex items-center gap-3">

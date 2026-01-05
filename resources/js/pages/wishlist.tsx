@@ -60,7 +60,7 @@ export default function Wishlist({ favorites }: WishlistProps) {
             <Header />
 
             <div className="bg-[#F2F4F5] py-4">
-                <div className="mx-auto max-w-7xl">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <Breadcrumbs
                         breadcrumbs={[
                             { title: 'Главная', href: '/' },
@@ -70,30 +70,36 @@ export default function Wishlist({ favorites }: WishlistProps) {
                 </div>
             </div>
 
-            <div className="mx-auto max-w-7xl py-8">
-                <div className="mb-6">
-                    <h1 className="text-2xl font-semibold">Избранное</h1>
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 md:py-12 mb-12">
+                <div className="mb-6 md:mb-8">
+                    <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Избранное</h1>
                 </div>
 
                 {items.length === 0 ? (
-                    <div className="rounded-lg border border-gray-200 bg-white p-12 text-center">
-                        <p className="text-lg text-gray-500">
-                            Ваш список избранного пуст
+                    <div className="rounded-lg border border-gray-200 bg-white p-12 text-center shadow-sm">
+                        <div className="flex justify-center mb-4">
+                            <div className="h-24 w-24 rounded-full bg-yellow-50 flex items-center justify-center">
+                                <ShoppingCart className="h-10 w-10 text-[#F4C430] opacity-50" />
+                            </div>
+                        </div>
+                        <h2 className="text-xl font-bold text-gray-900 mb-2">Ваш список избранного пуст</h2>
+                        <p className="text-lg text-gray-500 mb-6">
+                            В нем пока нет товаров
                         </p>
                         <Link href="/products">
-                            <Button className="mt-4 bg-[#F4C430] hover:bg-[#E5B520]">
+                            <Button className="bg-[#F4C430] hover:bg-[#E5B520] text-black h-12 px-8 font-medium">
                                 Перейти к покупкам
                             </Button>
                         </Link>
                     </div>
                 ) : (
-                    <div className="rounded-lg border border-gray-200 bg-white">
-                        {/* Table Header */}
-                        <div className="grid grid-cols-12 gap-4 border-b border-gray-200 bg-gray-50 px-6 py-4 text-sm font-medium text-gray-700">
-                            <div className="col-span-6">ПРОДУКТ</div>
+                    <div className="rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden">
+                        {/* Desktop Table Header */}
+                        <div className="hidden md:grid grid-cols-12 gap-4 border-b border-gray-200 bg-gray-50 px-6 py-4 text-sm font-semibold uppercase text-gray-700">
+                            <div className="col-span-5 lg:col-span-6">ПРОДУКТ</div>
                             <div className="col-span-2 text-center">ЦЕНА</div>
                             <div className="col-span-2 text-center">НАЛИЧИЕ</div>
-                            <div className="col-span-2 text-center">ДЕЙСТВИЯ</div>
+                            <div className="col-span-3 lg:col-span-2 text-center">ДЕЙСТВИЯ</div>
                         </div>
 
                         {/* Table Body */}
@@ -101,80 +107,102 @@ export default function Wishlist({ favorites }: WishlistProps) {
                             {items.map((item) => (
                                 <div
                                     key={item.id}
-                                    className="grid grid-cols-12 gap-4 px-6 py-6"
+                                    className="relative flex flex-col md:grid md:grid-cols-12 gap-4 p-4 md:px-6 md:py-6"
                                 >
+                                    {/* Mobile: Remove Button Absolute */}
+                                    <button
+                                        onClick={() => removeItem(item.id)}
+                                        className="absolute top-4 right-4 md:hidden p-2 text-gray-400 hover:bg-gray-100 rounded-full hover:text-red-500"
+                                    >
+                                        <X className="h-5 w-5" />
+                                    </button>
+
                                     {/* Product Info */}
-                                    <div className="col-span-6 flex items-center space-x-4">
-                                        <button
-                                            onClick={() => removeItem(item.id)}
-                                            className="text-gray-400 hover:text-red-500"
-                                        >
-                                            <X className="h-5 w-5" />
-                                        </button>
-                                        <Link
-                                            href={`/products/${item.id}`}
-                                            className="flex items-center space-x-4"
-                                        >
-                                            <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
-                                                <img
-                                                    src={item.images?.[0] || 'https://via.placeholder.com/150'}
-                                                    alt={item.title}
-                                                    className="h-full w-full object-contain p-2"
-                                                />
-                                            </div>
-                                            <div className="flex-1">
-                                                <h3 className="line-clamp-2 text-sm font-medium text-gray-900 hover:text-[#F4C430]">
-                                                    {item.title}
-                                                </h3>
+                                    <div className="md:col-span-5 lg:col-span-6 flex gap-4 pr-8 md:pr-0">
+                                        <Link href={`/products/${item.id}`} className="flex-shrink-0">
+                                            <div className="h-20 w-20 md:h-24 md:w-24 overflow-hidden rounded-md border border-gray-200 bg-gray-50 flex items-center justify-center">
+                                                {item.images?.[0] ? (
+                                                    <img
+                                                        src={item.images[0]}
+                                                        alt={item.title}
+                                                        className="h-full w-full object-contain p-1"
+                                                    />
+                                                ) : (
+                                                    <span className="text-xs text-gray-400">Нет фото</span>
+                                                )}
                                             </div>
                                         </Link>
-                                    </div>
-
-                                    {/* Price */}
-                                    <div className="col-span-2 flex items-center justify-center">
-                                        <div className="text-center">
-                                            <div className="text-lg font-semibold text-blue-600">
-                                                {Number(item.price).toLocaleString('ru-RU')} ₸
+                                        <div className="flex flex-col justify-center">
+                                            <Link href={`/products/${item.id}`}>
+                                                <h3 className="line-clamp-2 text-sm md:text-base font-medium text-gray-900 hover:text-[#FA8232] transition-colors mb-1">
+                                                    {item.title}
+                                                </h3>
+                                            </Link>
+                                            {/* Mobile Price & Status display inside info block */}
+                                            <div className="md:hidden space-y-1 mt-1">
+                                                <div className="text-base font-bold text-blue-600">
+                                                    {Number(item.price).toLocaleString('ru-RU')} ₸
+                                                </div>
+                                                {item.status === 'active' ? (
+                                                    <span className="inline-block text-xs font-medium text-green-600">
+                                                        В НАЛИЧИИ
+                                                    </span>
+                                                ) : (
+                                                    <span className="inline-block text-xs font-medium text-red-600">
+                                                        НЕТ В НАЛИЧИИ
+                                                    </span>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
 
-                                    {/* Availability */}
-                                    <div className="col-span-2 flex items-center justify-center">
+                                    {/* Desktop Price */}
+                                    <div className="hidden md:flex md:col-span-2 items-center justify-center">
+                                        <div className="text-lg font-semibold text-blue-600">
+                                            {Number(item.price).toLocaleString('ru-RU')} ₸
+                                        </div>
+                                    </div>
+
+                                    {/* Desktop Availability */}
+                                    <div className="hidden md:flex md:col-span-2 items-center justify-center">
                                         {item.status === 'active' ? (
-                                            <span className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-800">
+                                            <span className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-bold text-green-800">
                                                 В НАЛИЧИИ
                                             </span>
                                         ) : (
-                                            <span className="inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-xs font-medium text-red-800">
+                                            <span className="inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-800">
                                                 НЕТ В НАЛИЧИИ
                                             </span>
                                         )}
                                     </div>
 
                                     {/* Actions */}
-                                    <div className="col-span-2 flex items-center justify-center space-x-2">
-                                        {item.status === 'active' ? (
-                                            <Button
-                                                onClick={() => addToCart(item.id)}
-                                                className="bg-[#FA8232] text-white hover:bg-[#FA8232] w-full h-12 rounded-xs"
-                                            >
-                                                <ShoppingCart className="mr-2 h-4 w-4" />
-                                                В КОРЗИНУ
-                                            </Button>
-                                        ) : (
-                                            <Button
-                                                disabled
-                                                className="bg-gray-300 h-12 rounded-xs w-full text-gray-500"
-                                            >
-                                                <ShoppingCart className="mr-2 h-4 w-4" />
-                                                В КОРЗИНУ
-                                            </Button>
-                                        )}
+                                    <div className="md:col-span-3 lg:col-span-2 flex items-center justify-center gap-2 mt-2 md:mt-0">
+                                        <div className="w-full md:w-auto">
+                                            {item.status === 'active' ? (
+                                                <Button
+                                                    onClick={() => addToCart(item.id)}
+                                                    className="bg-[#FA8232] text-white hover:bg-[#E97527] w-full md:w-auto h-10 md:h-12 px-4 md:px-6 font-bold shadow-sm"
+                                                >
+                                                    <ShoppingCart className="mr-2 h-4 w-4" />
+                                                    <span className="md:hidden lg:inline">В КОРЗИНУ</span>
+                                                </Button>
+                                            ) : (
+                                                <Button
+                                                    disabled
+                                                    className="bg-gray-100 text-gray-400 w-full md:w-auto h-10 md:h-12 px-4 md:px-6"
+                                                >
+                                                    <ShoppingCart className="mr-2 h-4 w-4" />
+                                                    <span className="md:hidden lg:inline">В КОРЗИНУ</span>
+                                                </Button>
+                                            )}
+                                        </div>
+
+                                        {/* Desktop Remove Button */}
                                         <button
                                             onClick={() => removeItem(item.id)}
-                                            className="rounded p-2 text-gray-400 hover:bg-gray-100 hover:text-red-500"
-                                            title="Удалить"
+                                            className="hidden md:flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-md border border-gray-200 text-gray-400 hover:bg-red-50 hover:border-red-200 hover:text-red-500 transition-all"
+                                            title="Удалить из избранного"
                                         >
                                             <Trash2 className="h-5 w-5" />
                                         </button>

@@ -48,7 +48,7 @@ export default function Archive({ listings }: Props) {
             <Header />
 
             <div className="bg-[#F2F4F5] py-4">
-                <div className="mx-auto max-w-7xl">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <Breadcrumbs
                         breadcrumbs={[
                             { title: 'Главная', href: '/' },
@@ -59,14 +59,14 @@ export default function Archive({ listings }: Props) {
                 </div>
             </div>
 
-            <div className="bg-white py-12">
-                <div className="mx-auto max-w-7xl">
-                    <div className="grid grid-cols-12 gap-6">
-                        <div className="col-span-3">
+            <div className="bg-white py-8 md:py-12">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                        <div className="lg:col-span-3 order-1 lg:order-1">
                             <ProfileSidebar />
                         </div>
 
-                        <div className="col-span-9">
+                        <div className="lg:col-span-9 order-2 lg:order-2">
                             <div className="mb-6">
                                 <h1 className="text-2xl font-bold text-gray-900">
                                     Архив объявлений
@@ -82,48 +82,55 @@ export default function Archive({ listings }: Props) {
                                     {listings.data.map((listing) => (
                                         <div
                                             key={listing.id}
-                                            className="bg-white border border-gray-200 rounded-sm p-6 hover:shadow-md transition-shadow opacity-75"
+                                            className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6 hover:shadow-md transition-shadow opacity-75"
                                         >
-                                            <div className="flex gap-4">
-                                                {listing.images && listing.images.length > 0 && (
+                                            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+                                                {listing.images && listing.images.length > 0 ? (
                                                     <img
                                                         src={listing.images[0]}
                                                         alt={listing.title}
-                                                        className="w-32 h-32 object-cover rounded-sm grayscale"
+                                                        className="w-full h-auto sm:w-32 sm:h-32 object-cover rounded-md grayscale flex-shrink-0"
                                                     />
+                                                ) : (
+                                                    <div className="w-full h-40 sm:w-32 sm:h-32 bg-gray-100 rounded-md flex-shrink-0" />
                                                 )}
-                                                <div className="flex-1">
-                                                    <div className="flex justify-between items-start">
-                                                        <div className="flex-1">
-                                                            <h3 className="text-lg font-bold text-gray-900 mb-2">
+                                                <div className="flex-1 min-w-0">
+                                                    <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
+                                                        <div className="flex-1 w-full">
+                                                            <h3 className="text-lg font-bold text-gray-900 mb-2 truncate">
                                                                 {listing.title}
                                                             </h3>
-                                                            <p className="text-gray-600 mb-3 line-clamp-2">
-                                                                {listing.description}
-                                                            </p>
-                                                            <div className="flex gap-4 text-sm text-gray-500">
-                                                                <span>Цена: <span className="font-semibold text-[#2DA5F3]">{listing.price} ₸</span></span>
-                                                                <span>Категория: {listing.category}</span>
-                                                                <span>Состояние: {listing.condition}</span>
-                                                                <span>Локация: {listing.location}</span>
+                                                            <div
+                                                                className="text-gray-600 mb-3 line-clamp-2 text-sm"
+                                                                dangerouslySetInnerHTML={{ __html: listing.description }}
+                                                            />
+                                                            <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-gray-500">
+                                                                <span className="whitespace-nowrap">Цена: <span className="font-semibold text-[#2DA5F3]">{listing.price.toLocaleString('ru-RU')} ₸</span></span>
+                                                                <span className="whitespace-nowrap">Кат.: {listing.category}</span>
+                                                                <span className="whitespace-nowrap">Сост.: {listing.condition}</span>
+                                                                <span className="whitespace-nowrap">Локация: {listing.location}</span>
                                                             </div>
                                                         </div>
-                                                        <div className="flex gap-2 ml-4">
+                                                        <div className="flex flex-row sm:flex-col gap-2 w-full sm:w-auto pt-2 sm:pt-0 border-t sm:border-0 border-gray-100 justify-end">
                                                             <Button
                                                                 onClick={() => handleRestore(listing.id)}
                                                                 variant="outline"
                                                                 size="sm"
-                                                                className="rounded-sm text-green-600 hover:text-green-700"
+                                                                className="flex-1 sm:flex-none rounded-md text-green-600 hover:text-green-700 bg-white border-gray-200"
+                                                                title="Восстановить"
                                                             >
-                                                                <RotateCcw className="h-4 w-4" />
+                                                                <RotateCcw className="h-4 w-4 mr-2 sm:mr-0" />
+                                                                <span className="sm:hidden">Восстановить</span>
                                                             </Button>
                                                             <Button
                                                                 onClick={() => handleDelete(listing.id)}
                                                                 variant="outline"
                                                                 size="sm"
-                                                                className="rounded-sm text-red-600 hover:text-red-700"
+                                                                className="flex-1 sm:flex-none rounded-md text-red-600 hover:text-red-700 bg-white border-gray-200"
+                                                                title="Удалить"
                                                             >
-                                                                <Trash2 className="h-4 w-4" />
+                                                                <Trash2 className="h-4 w-4 mr-2 sm:mr-0" />
+                                                                <span className="sm:hidden">Удалить</span>
                                                             </Button>
                                                         </div>
                                                     </div>
@@ -135,23 +142,22 @@ export default function Archive({ listings }: Props) {
                             )}
 
                             {listings.data.length > 0 && (
-                                <div className="flex justify-center gap-2 mt-6">
+                                <div className="flex flex-wrap justify-center gap-2 mt-6">
                                     {listings.links.map((link, index) => (
                                         link.url ? (
                                             <Link
                                                 key={index}
                                                 href={link.url}
-                                                className={`px-4 py-2 rounded-sm text-sm font-medium ${
-                                                    link.active
-                                                        ? 'bg-[#2DA5F3] text-white'
+                                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${link.active
+                                                        ? 'bg-[#2DA5F3] text-white shadow-md'
                                                         : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
-                                                }`}
+                                                    }`}
                                                 dangerouslySetInnerHTML={{ __html: link.label }}
                                             />
                                         ) : (
                                             <span
                                                 key={index}
-                                                className="px-4 py-2 rounded-sm text-sm font-medium bg-gray-100 text-gray-400 cursor-not-allowed"
+                                                className="px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-400 cursor-not-allowed"
                                                 dangerouslySetInnerHTML={{ __html: link.label }}
                                             />
                                         )

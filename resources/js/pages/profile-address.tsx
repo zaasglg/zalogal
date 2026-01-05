@@ -22,27 +22,26 @@ export default function ProfileAddress() {
             <Header />
 
             <div className="bg-[#F2F4F5] py-4">
-                <div className="mx-auto max-w-7xl">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <Breadcrumbs
                         breadcrumbs={[
                             { title: 'Главная', href: '/' },
-                            { title: 'User Account', href: '/profile' },
-                            { title: 'Dashboard', href: '/dashboard' },
-                            { title: 'Cards & Address', href: '' },
+                            { title: 'Личный кабинет', href: '/profile' },
+                            { title: 'Карты и Адреса', href: '' },
                         ]}
                     />
                 </div>
             </div>
 
-            <div className="mx-auto max-w-7xl py-12">
-                <div className="grid grid-cols-12 gap-6">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                     {/* Sidebar */}
-                    <div className="col-span-3">
+                    <div className="lg:col-span-3 order-1 lg:order-1">
                         <ProfileSidebar />
                     </div>
 
                     {/* Main Content */}
-                    <div className="col-span-9">
+                    <div className="lg:col-span-9 order-2 lg:order-2">
                         {/* Payment Option */}
                         <div className="bg-white rounded-sm border border-gray-200 mb-6">
                             <div className="p-6 border-b border-gray-200 flex items-center justify-between">
@@ -91,7 +90,7 @@ export default function ProfileAddress() {
                                 </Dialog>
                             </div>
                             <div className="p-6">
-                                <div className="grid grid-cols-2 gap-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     {/* Visa Card */}
                                     <div className="relative bg-[#1E3A5F] rounded-lg p-6 text-white overflow-hidden h-48 flex flex-col justify-between">
                                         <div className="flex justify-between items-start">
@@ -140,7 +139,7 @@ export default function ProfileAddress() {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {/* Billing Address */}
                             <div className="bg-white rounded-sm border border-gray-200">
                                 <div className="p-6 border-b border-gray-200">

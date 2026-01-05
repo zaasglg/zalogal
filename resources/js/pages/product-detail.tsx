@@ -273,7 +273,7 @@ export default function ProductDetail({ listing, relatedListings = [], isFavorit
             <Header />
 
             <div className="bg-[#F2F4F5] py-4">
-                <div className="mx-auto max-w-7xl">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <Breadcrumbs
                         breadcrumbs={[
                             { title: 'Главная', href: '/' },
@@ -285,10 +285,10 @@ export default function ProductDetail({ listing, relatedListings = [], isFavorit
                 </div>
             </div>
 
-            <div className="mx-auto max-w-7xl py-8">
-                <div className="grid grid-cols-12 gap-8">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                     {/* Product Images */}
-                    <div className="col-span-5">
+                    <div className="lg:col-span-5">
                         <div className="space-y-4">
                             <div className="relative overflow-hidden rounded-lg border border-gray-200 bg-white">
                                 {productImages[currentImageIndex] ? (
@@ -329,7 +329,7 @@ export default function ProductDetail({ listing, relatedListings = [], isFavorit
                     </div>
 
                     {/* Product Info */}
-                    <div className="col-span-7 space-y-6">
+                    <div className="lg:col-span-7 space-y-6">
                         {/* Product Title */}
                         <h1 className="text-2xl font-semibold text-gray-900">
                             {listing.title}
@@ -401,8 +401,8 @@ export default function ProductDetail({ listing, relatedListings = [], isFavorit
                         <Separator />
 
                         {/* Quantity and Add to Cart */}
-                        <div className="flex items-center space-x-4">
-                            <div className="flex items-center space-x-2 h-12 px-2 border rounded-xs">
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                            <div className="flex items-center space-x-2 h-12 px-2 border rounded-xs justify-center">
                                 <button
                                     onClick={() =>
                                         setQuantity((prev) =>
@@ -434,7 +434,7 @@ export default function ProductDetail({ listing, relatedListings = [], isFavorit
                             >
                                 В КОРЗИНУ
                             </Button>
-                            <Button className="bg-[#FA8232] text-white hover:bg-[#FA8232] h-12 rounded-xs">
+                            <Button className="flex-1 sm:flex-none bg-[#E97527] text-white hover:bg-[#E97527] h-12 rounded-xs">
                                 КУПИТЬ СЕЙЧАС
                             </Button>
                         </div>
@@ -510,11 +510,11 @@ export default function ProductDetail({ listing, relatedListings = [], isFavorit
 
                 {/* Product Details Tabs */}
                 <div className="mt-12">
-                    <div className="border-b border-gray-200">
-                        <div className="flex space-x-8">
+                    <div className="border-b border-gray-200 overflow-x-auto">
+                        <div className="flex space-x-8 min-w-max pb-1">
                             <button
                                 onClick={() => setActiveTab('description')}
-                                className={`border-b-2 px-4 py-3 text-sm font-medium uppercase ${activeTab === 'description'
+                                className={`border-b-2 px-4 py-3 text-sm font-medium uppercase whitespace-nowrap ${activeTab === 'description'
                                     ? 'border-[#FA8232] text-[#FA8232]'
                                     : 'border-transparent text-gray-500 hover:text-gray-700'
                                     }`}
@@ -523,7 +523,7 @@ export default function ProductDetail({ listing, relatedListings = [], isFavorit
                             </button>
                             <button
                                 onClick={() => setActiveTab('additional')}
-                                className={`border-b-2 px-4 py-3 text-sm font-medium uppercase ${activeTab === 'additional'
+                                className={`border-b-2 px-4 py-3 text-sm font-medium uppercase whitespace-nowrap ${activeTab === 'additional'
                                     ? 'border-[#FA8232] text-[#FA8232]'
                                     : 'border-transparent text-gray-500 hover:text-gray-700'
                                     }`}
@@ -532,7 +532,7 @@ export default function ProductDetail({ listing, relatedListings = [], isFavorit
                             </button>
                             <button
                                 onClick={() => setActiveTab('specifications')}
-                                className={`border-b-2 px-4 py-3 text-sm font-medium uppercase ${activeTab === 'specifications'
+                                className={`border-b-2 px-4 py-3 text-sm font-medium uppercase whitespace-nowrap ${activeTab === 'specifications'
                                     ? 'border-[#FA8232] text-[#FA8232]'
                                     : 'border-transparent text-gray-500 hover:text-gray-700'
                                     }`}
@@ -541,7 +541,7 @@ export default function ProductDetail({ listing, relatedListings = [], isFavorit
                             </button>
                             <button
                                 onClick={() => setActiveTab('reviews')}
-                                className={`border-b-2 px-4 py-3 text-sm font-medium uppercase ${activeTab === 'reviews'
+                                className={`border-b-2 px-4 py-3 text-sm font-medium uppercase whitespace-nowrap ${activeTab === 'reviews'
                                     ? 'border-[#FA8232] text-[#FA8232]'
                                     : 'border-transparent text-gray-500 hover:text-gray-700'
                                     }`}
@@ -553,8 +553,8 @@ export default function ProductDetail({ listing, relatedListings = [], isFavorit
 
                     <div className="mt-8">
                         {activeTab === 'description' && (
-                            <div className="grid grid-cols-3 gap-8">
-                                <div className="col-span-2 space-y-4 text-sm text-gray-600">
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                                <div className="lg:col-span-2 space-y-4 text-sm text-gray-600">
                                     <h3 className="text-lg font-semibold text-gray-900">
                                         Описание
                                     </h3>
@@ -625,7 +625,7 @@ export default function ProductDetail({ listing, relatedListings = [], isFavorit
                                     Характеристики
                                 </h3>
                                 {listing.specifications && listing.specifications.length > 0 ? (
-                                    <div className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-sm">
                                         {listing.specifications.map((spec, index) => (
                                             <div key={index} className="flex border-b border-gray-100 py-2">
                                                 <span className="w-48 font-medium text-gray-500">
@@ -739,7 +739,7 @@ export default function ProductDetail({ listing, relatedListings = [], isFavorit
                     </div>
                 </div>
 
-                <section className='grid grid-cols-4 gap-4'>
+                <section className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12'>
                     {/* Related Products Section (Real Data) */}
                     {relatedListings.length > 0 && (
                         <div className="mt-16">

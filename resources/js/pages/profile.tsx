@@ -34,8 +34,8 @@ export default function Profile() {
     };
 
     const getCardGradient = (type: string) => {
-        return type === 'visa' 
-            ? 'from-[#1E3A5F] to-[#2B5A8E]' 
+        return type === 'visa'
+            ? 'from-[#1E3A5F] to-[#2B5A8E]'
             : 'from-[#2DB224] to-[#5FD553]';
     };
 
@@ -45,7 +45,7 @@ export default function Profile() {
             <Header />
 
             <div className="bg-[#F2F4F5] py-4">
-                <div className="mx-auto max-w-7xl">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <Breadcrumbs
                         breadcrumbs={[
                             { title: 'Главная', href: '/' },
@@ -57,16 +57,16 @@ export default function Profile() {
             </div>
 
             {/* Main Content */}
-            <div className="bg-white py-12">
-                <div className="mx-auto max-w-7xl">
-                    <div className="grid grid-cols-12 gap-6">
+            <div className="bg-white py-8 md:py-12">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                         {/* Sidebar */}
-                        <div className="col-span-3">
+                        <div className="lg:col-span-3">
                             <ProfileSidebar />
                         </div>
 
                         {/* Main Content */}
-                        <div className="col-span-9">
+                        <div className="lg:col-span-9">
                             <div>
                                 <div className="mb-6">
                                     <h1 className="text-2xl font-bold text-gray-900 mb-2">
@@ -83,9 +83,9 @@ export default function Profile() {
                                     </p>
                                 </div>
 
-                                <div className="grid grid-cols-8 gap-3 mb-8">
+                                <div className="grid grid-cols-1 lg:grid-cols-8 gap-6 mb-8">
                                     {/* Account Info Card */}
-                                    <div className="col-span-3 border border-gray-200 rounded-sm p-6">
+                                    <div className="lg:col-span-3 border border-gray-200 rounded-sm p-6">
                                         <h3 className="font-bold text-gray-900 mb-4 uppercase">
                                             Информация об аккаунте
                                         </h3>
@@ -123,7 +123,7 @@ export default function Profile() {
                                     </div>
 
                                     {/* Billing Address Card */}
-                                    <div className="col-span-3 border border-gray-200 rounded-sm p-6">
+                                    <div className="lg:col-span-3 border border-gray-200 rounded-sm p-6">
                                         <h3 className="font-bold text-gray-900 mb-4">
                                             АДРЕС ПЛАТЕЖА
                                         </h3>
@@ -152,7 +152,7 @@ export default function Profile() {
                                                 </span>
                                             </p>
                                         </div>
-                                        <Button 
+                                        <Button
                                             onClick={() => setIsAddressModalOpen(true)}
                                             className="w-full bg-[#2DA5F3] hover:bg-[#2594DD] text-white rounded-none h-12"
                                         >
@@ -161,7 +161,7 @@ export default function Profile() {
                                     </div>
 
                                     {/* Stats Cards */}
-                                    <div className="col-span-2 mb-8">
+                                    <div className="lg:col-span-2 mb-8">
                                         <div className="space-y-3">
                                             <div className="bg-[#EDF4FE] rounded-sm p-4 flex items-center space-x-4">
                                                 <div className="w-10 h-10  rounded-full flex items-center justify-center">
@@ -240,7 +240,7 @@ export default function Profile() {
                                             <span>→</span>
                                         </Link>
                                     </div>
-                                    <div className="grid grid-cols-3 gap-4">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                                         {paymentCards?.map((card: any) => (
                                             <div key={card.id} className={`relative bg-gradient-to-br ${getCardGradient(card.card_type)} rounded-lg p-6 text-white overflow-hidden group`}>
                                                 <button
@@ -275,7 +275,7 @@ export default function Profile() {
                                             </div>
                                         ))}
 
-                                        <button 
+                                        <button
                                             onClick={() => setIsCardModalOpen(true)}
                                             className="border-2 border-dashed border-gray-300 rounded-md p-6 flex flex-col items-center justify-center gap-3 hover:border-[#2DA5F3] hover:bg-blue-50/30 transition-colors"
                                         >
@@ -306,11 +306,11 @@ export default function Profile() {
                                         <span>→</span>
                                     </Link>
                                 </div>
-                                <div className="grid grid-cols-4 divide-x">
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-gray-200 border border-gray-200">
                                     {[1, 2, 3, 4].map((item) => (
                                         <div
                                             key={item}
-                                            className="hover:shadow-2xl transition-shadow p-3"
+                                            className="hover:shadow-2xl transition-shadow p-3 bg-white"
                                         >
                                             <div className="aspect-square bg-gray-100 rounded-sm mb-3 flex items-center justify-center">
                                                 <img
@@ -346,18 +346,18 @@ export default function Profile() {
             </div>
 
             <Footer />
-            
+
             <AddressModal
                 address={billingAddress}
                 isOpen={isAddressModalOpen}
                 onClose={() => setIsAddressModalOpen(false)}
             />
-            
+
             <AddCardModal
                 isOpen={isCardModalOpen}
                 onClose={() => setIsCardModalOpen(false)}
             />
-            
+
             <Toast />
         </>
     );

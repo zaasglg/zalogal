@@ -102,7 +102,7 @@ export default function Checkout({ cartItems = [], addresses = [] }: Props) {
         const nameParts = address.full_name.split(' ');
         const firstName = nameParts[0] || '';
         const lastName = nameParts.slice(1).join(' ') || '';
-        
+
         // Используем отдельные вызовы setData для каждого поля
         setData('first_name', firstName);
         setData('last_name', lastName);
@@ -140,7 +140,7 @@ export default function Checkout({ cartItems = [], addresses = [] }: Props) {
       <Head title="Оформление заказа - Zalogal" />
       <Header />
       <div className="bg-[#F2F4F5] py-4">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Breadcrumbs
             breadcrumbs={[
               { title: 'Главная', href: '/' },
@@ -150,16 +150,16 @@ export default function Checkout({ cartItems = [], addresses = [] }: Props) {
           />
         </div>
       </div>
-      <div className="mx-auto max-w-7xl py-8">
-        <div className="grid grid-cols-12 gap-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Billing Form */}
-          <form onSubmit={handleSubmit} className="col-span-8 space-y-8">
+          <form onSubmit={handleSubmit} className="lg:col-span-8 space-y-8">
             {/* Выбор сохраненного адреса */}
             {addresses.length > 0 && (
-              <div className="mb-6 rounded-lg border border-gray-200 bg-white p-4">
-                <div className="mb-4 flex items-center justify-between">
-                  <h3 className="text-base font-semibold">Сохраненные адреса</h3>
-                  <label className="flex items-center space-x-2 cursor-pointer">
+              <div className="mb-6 rounded-lg border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
+                <div className="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <h3 className="text-lg font-bold text-gray-900">Сохраненные адреса</h3>
+                  <label className="flex items-center space-x-2 cursor-pointer select-none">
                     <input
                       type="checkbox"
                       checked={useSavedAddress}
@@ -181,21 +181,20 @@ export default function Checkout({ cartItems = [], addresses = [] }: Props) {
                           });
                         }
                       }}
-                      className="rounded border-gray-300"
+                      className="rounded border-gray-300 text-[#FA8232] focus:ring-[#FA8232]"
                     />
                     <span className="text-sm text-gray-600">Использовать сохраненный адрес</span>
                   </label>
                 </div>
                 {useSavedAddress && (
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     {addresses.map((address) => (
                       <label
                         key={address.id}
-                        className={`flex cursor-pointer items-start space-x-3 rounded border p-3 transition-colors ${
-                          selectedAddressId === address.id
-                            ? 'border-[#FA8232] bg-[#FA8232]/5'
-                            : 'border-gray-200 hover:border-gray-300'
-                        }`}
+                        className={`flex cursor-pointer items-start space-x-3 rounded-lg border p-4 transition-all ${selectedAddressId === address.id
+                            ? 'border-[#FA8232] bg-[#FFF8F0] shadow-sm'
+                            : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                          }`}
                       >
                         <input
                           type="radio"
@@ -203,18 +202,18 @@ export default function Checkout({ cartItems = [], addresses = [] }: Props) {
                           value={address.id}
                           checked={selectedAddressId === address.id}
                           onChange={() => setSelectedAddressId(address.id)}
-                          className="mt-1"
+                          className="mt-1 text-[#FA8232] focus:ring-[#FA8232]"
                         />
                         <div className="flex-1">
-                          <div className="flex items-center justify-between">
-                            <span className="font-medium text-gray-900">{address.full_name}</span>
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <span className="font-bold text-gray-900">{address.full_name}</span>
                             {address.is_default && (
-                              <span className="rounded bg-blue-100 px-2 py-1 text-xs text-blue-800">
+                              <span className="inline-block w-fit rounded bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-800">
                                 По умолчанию
                               </span>
                             )}
                           </div>
-                          <p className="mt-1 text-sm text-gray-600">
+                          <p className="mt-1 text-sm text-gray-600 leading-relaxed">
                             {address.address_line_1}
                             {address.address_line_2 && `, ${address.address_line_2}`}
                           </p>
@@ -223,7 +222,7 @@ export default function Checkout({ cartItems = [], addresses = [] }: Props) {
                           </p>
                           <p className="text-sm text-gray-600">{address.country}</p>
                           {address.phone && (
-                            <p className="mt-1 text-sm text-gray-600">Телефон: {address.phone}</p>
+                            <p className="mt-1 text-sm text-gray-600 font-medium">Тел: {address.phone}</p>
                           )}
                         </div>
                       </label>
@@ -233,216 +232,248 @@ export default function Checkout({ cartItems = [], addresses = [] }: Props) {
               </div>
             )}
             {(!useSavedAddress || addresses.length === 0) && (
-              <div>
-                <h2 className="mb-4 text-lg font-semibold">Платежная информация</h2>
-              <div className="grid grid-cols-4 gap-4 mb-4">
-                <div className="col-span-1">
-                  <Input 
-                    placeholder="Имя" 
-                    value={data.first_name}
-                    onChange={(e) => setData('first_name', e.target.value)}
-                    className={errors.first_name ? 'border-red-500' : ''}
+              <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+                <h2 className="mb-6 text-xl font-bold text-gray-900">Платежная информация</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                  <div className="col-span-1">
+                    <label className="text-sm font-medium text-gray-700 mb-1 block">Имя</label>
+                    <Input
+                      placeholder="Имя"
+                      value={data.first_name}
+                      onChange={(e) => setData('first_name', e.target.value)}
+                      className={`h-11 ${errors.first_name ? 'border-red-500' : ''}`}
+                      required
+                    />
+                    {errors.first_name && <p className="text-red-500 text-xs mt-1">{errors.first_name}</p>}
+                  </div>
+                  <div className="col-span-1">
+                    <label className="text-sm font-medium text-gray-700 mb-1 block">Фамилия</label>
+                    <Input
+                      placeholder="Фамилия"
+                      value={data.last_name}
+                      onChange={(e) => setData('last_name', e.target.value)}
+                      className={`h-11 ${errors.last_name ? 'border-red-500' : ''}`}
+                      required
+                    />
+                    {errors.last_name && <p className="text-red-500 text-xs mt-1">{errors.last_name}</p>}
+                  </div>
+                  <div className="col-span-1 sm:col-span-2">
+                    <label className="text-sm font-medium text-gray-700 mb-1 block">Компания <span className="text-gray-400 font-normal">(необязательно)</span></label>
+                    <Input
+                      placeholder="Название компании"
+                      value={data.company}
+                      onChange={(e) => setData('company', e.target.value)}
+                      className="h-11"
+                    />
+                  </div>
+                </div>
+                <div className="mb-4">
+                  <label className="text-sm font-medium text-gray-700 mb-1 block">Адрес</label>
+                  <Input
+                    placeholder="Улица, дом, квартира"
+                    value={data.address}
+                    onChange={(e) => setData('address', e.target.value)}
+                    className={`h-11 ${errors.address ? 'border-red-500' : ''}`}
                     required
                   />
-                  {errors.first_name && <p className="text-red-500 text-xs mt-1">{errors.first_name}</p>}
+                  {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
                 </div>
-                <div className="col-span-1">
-                  <Input 
-                    placeholder="Фамилия" 
-                    value={data.last_name}
-                    onChange={(e) => setData('last_name', e.target.value)}
-                    className={errors.last_name ? 'border-red-500' : ''}
-                    required
-                  />
-                  {errors.last_name && <p className="text-red-500 text-xs mt-1">{errors.last_name}</p>}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                  <div className="col-span-1">
+                    <label className="text-sm font-medium text-gray-700 mb-1 block">Страна</label>
+                    <Input
+                      placeholder="Страна"
+                      value={data.country}
+                      onChange={(e) => setData('country', e.target.value)}
+                      className={`h-11 ${errors.country ? 'border-red-500' : ''}`}
+                      required
+                    />
+                    {errors.country && <p className="text-red-500 text-xs mt-1">{errors.country}</p>}
+                  </div>
+                  <div className="col-span-1">
+                    <label className="text-sm font-medium text-gray-700 mb-1 block">Регион</label>
+                    <Input
+                      placeholder="Область/Край"
+                      value={data.region}
+                      onChange={(e) => setData('region', e.target.value)}
+                      className={`h-11 ${errors.region ? 'border-red-500' : ''}`}
+                      required
+                    />
+                    {errors.region && <p className="text-red-500 text-xs mt-1">{errors.region}</p>}
+                  </div>
+                  <div className="col-span-1">
+                    <label className="text-sm font-medium text-gray-700 mb-1 block">Город</label>
+                    <Input
+                      placeholder="Город"
+                      value={data.city}
+                      onChange={(e) => setData('city', e.target.value)}
+                      className={`h-11 ${errors.city ? 'border-red-500' : ''}`}
+                      required
+                    />
+                    {errors.city && <p className="text-red-500 text-xs mt-1">{errors.city}</p>}
+                  </div>
+                  <div className="col-span-1">
+                    <label className="text-sm font-medium text-gray-700 mb-1 block">Индекс</label>
+                    <Input
+                      placeholder="Почтовый индекс"
+                      value={data.postal_code}
+                      onChange={(e) => setData('postal_code', e.target.value)}
+                      className={`h-11 ${errors.postal_code ? 'border-red-500' : ''}`}
+                      required
+                    />
+                    {errors.postal_code && <p className="text-red-500 text-xs mt-1">{errors.postal_code}</p>}
+                  </div>
                 </div>
-                <div className="col-span-2">
-                  <Input 
-                    placeholder="Компания (необязательно)" 
-                    value={data.company}
-                    onChange={(e) => setData('company', e.target.value)}
-                  />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label className="text-sm font-medium text-gray-700 mb-1 block">Email</label>
+                    <Input
+                      placeholder="Email"
+                      type="email"
+                      value={data.email}
+                      onChange={(e) => setData('email', e.target.value)}
+                      className={`h-11 ${errors.email ? 'border-red-500' : ''}`}
+                      required
+                    />
+                    {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-700 mb-1 block">Телефон</label>
+                    <Input
+                      placeholder="Телефон"
+                      value={data.phone}
+                      onChange={(e) => setData('phone', e.target.value)}
+                      className={`h-11 ${errors.phone ? 'border-red-500' : ''}`}
+                      required
+                    />
+                    {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+                  </div>
                 </div>
-              </div>
-              <div className="mb-4">
-                <Input 
-                  placeholder="Адрес" 
-                  value={data.address}
-                  onChange={(e) => setData('address', e.target.value)}
-                  className={errors.address ? 'border-red-500' : ''}
-                  required
-                />
-                {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
-              </div>
-              <div className="grid grid-cols-4 gap-4 mb-4">
-                <div className="col-span-1">
-                  <Input 
-                    placeholder="Страна" 
-                    value={data.country}
-                    onChange={(e) => setData('country', e.target.value)}
-                    className={errors.country ? 'border-red-500' : ''}
-                    required
-                  />
-                  {errors.country && <p className="text-red-500 text-xs mt-1">{errors.country}</p>}
-                </div>
-                <div className="col-span-1">
-                  <Input 
-                    placeholder="Регион/Область" 
-                    value={data.region}
-                    onChange={(e) => setData('region', e.target.value)}
-                    className={errors.region ? 'border-red-500' : ''}
-                    required
-                  />
-                  {errors.region && <p className="text-red-500 text-xs mt-1">{errors.region}</p>}
-                </div>
-                <div className="col-span-1">
-                  <Input 
-                    placeholder="Город" 
-                    value={data.city}
-                    onChange={(e) => setData('city', e.target.value)}
-                    className={errors.city ? 'border-red-500' : ''}
-                    required
-                  />
-                  {errors.city && <p className="text-red-500 text-xs mt-1">{errors.city}</p>}
-                </div>
-                <div className="col-span-1">
-                  <Input 
-                    placeholder="Почтовый индекс" 
-                    value={data.postal_code}
-                    onChange={(e) => setData('postal_code', e.target.value)}
-                    className={errors.postal_code ? 'border-red-500' : ''}
-                    required
-                  />
-                  {errors.postal_code && <p className="text-red-500 text-xs mt-1">{errors.postal_code}</p>}
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <div>
-                  <Input 
-                    placeholder="Email" 
-                    type="email"
-                    value={data.email}
-                    onChange={(e) => setData('email', e.target.value)}
-                    className={errors.email ? 'border-red-500' : ''}
-                    required
-                  />
-                  {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
-                </div>
-                <div>
-                  <Input 
-                    placeholder="Телефон" 
-                    value={data.phone}
-                    onChange={(e) => setData('phone', e.target.value)}
-                    className={errors.phone ? 'border-red-500' : ''}
-                    required
-                  />
-                  {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
-                </div>
-              </div>
               </div>
             )}
-            <Separator />
-            <div>
-              <h2 className="mb-4 text-lg font-semibold">Способ оплаты</h2>
-              <div className="grid grid-cols-5 gap-4 mb-4">
+
+            <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+              <h2 className="mb-6 text-xl font-bold text-gray-900">Способ оплаты</h2>
+              <div className="grid grid-cols-3 sm:grid-cols-5 gap-4 mb-6">
                 {paymentOptions.map((option) => (
-                  <label key={option.value} className="flex flex-col items-center cursor-pointer">
-                    <span className="text-3xl mb-2">{option.icon}</span>
+                  <label
+                    key={option.value}
+                    className={`flex flex-col items-center justify-center cursor-pointer p-3 rounded-lg border transition-all h-24 ${data.payment_method === option.value
+                        ? 'border-[#FA8232] bg-[#FFF8F0] shadow-sm'
+                        : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                      }`}
+                  >
+                    <span className="text-3xl mb-2 filter drop-shadow-sm">{option.icon}</span>
+                    <span className="text-xs font-medium text-gray-700 text-center leading-tight">{option.label}</span>
                     <input
                       type="radio"
                       name="payment"
                       value={option.value}
                       checked={data.payment_method === option.value}
                       onChange={() => setData('payment_method', option.value)}
-                      className="mb-1"
+                      className="hidden" // Hiding actual radio, styling the label
                     />
-                    <span className="text-xs text-gray-700">{option.label}</span>
                   </label>
                 ))}
               </div>
               {data.payment_method === 'card' && (
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                  <Input placeholder="Имя на карте" className="col-span-2" />
-                  <Input placeholder="Номер карты" className="col-span-2" />
-                  <Input placeholder="Срок действия (MM/YY)" />
-                  <Input placeholder="CVC" />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 p-4 bg-gray-50 rounded-lg border border-gray-100">
+                  <Input placeholder="Имя на карте" className="col-span-1 sm:col-span-2 h-11 bg-white" />
+                  <Input placeholder="Номер карты" className="col-span-1 sm:col-span-2 h-11 bg-white" />
+                  <Input placeholder="Срок действия (MM/YY)" className="h-11 bg-white" />
+                  <Input placeholder="CVC" className="h-11 bg-white" />
                 </div>
               )}
             </div>
-            <Separator />
-            <div>
-              <h2 className="mb-4 text-lg font-semibold">Дополнительная информация</h2>
+
+            <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+              <h2 className="mb-4 text-xl font-bold text-gray-900">Дополнительная информация</h2>
+              <label className="text-sm font-medium text-gray-700 mb-1 block">Комментарий к заказу</label>
               <textarea
-                className="w-full rounded border border-gray-300 p-2 text-sm"
+                className="w-full rounded-md border border-gray-300 p-3 text-sm focus:border-[#FA8232] focus:ring-[#FA8232] min-h-[100px]"
                 rows={4}
-                placeholder="Комментарий к заказу (необязательно)"
+                placeholder="Примечания к вашему заказу, например, особые пожелания по доставке."
                 value={data.comment}
                 onChange={(e) => setData('comment', e.target.value)}
               />
             </div>
           </form>
           {/* Order Summary */}
-          <div className="col-span-4">
-            <div className="rounded border border-gray-200 bg-white p-6">
-              <h2 className="mb-4 text-lg font-semibold">Ваш заказ</h2>
+          <div className="lg:col-span-4">
+            <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm sticky top-4">
+              <h2 className="mb-6 text-xl font-bold text-gray-900 border-b pb-4">Ваш заказ</h2>
               {cartItems.length === 0 ? (
-                <p className="text-gray-500 text-sm mb-4">Корзина пуста</p>
+                <div className="text-center py-8">
+                  <p className="text-gray-500 mb-4">Корзина пуста</p>
+                  <Link href="/cart">
+                    <Button variant="outline" className="text-[#FA8232] border-[#FA8232] hover:bg-orange-50">
+                      Вернуться в корзину
+                    </Button>
+                  </Link>
+                </div>
               ) : (
                 <>
-                  <div className="space-y-4 mb-4">
+                  <div className="space-y-4 mb-6 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                     {cartItems.map((item) => (
-                      <div key={item.id} className="flex items-center space-x-3">
-                        {item.listing.images && item.listing.images.length > 0 ? (
-                          <img 
-                            src={item.listing.images[0]} 
-                            alt={item.listing.title} 
-                            className="h-12 w-12 rounded border border-gray-200 object-cover" 
-                          />
-                        ) : (
-                          <div className="h-12 w-12 rounded border border-gray-200 bg-gray-100 flex items-center justify-center">
-                            <span className="text-xs text-gray-400">Нет фото</span>
+                      <div key={item.id} className="flex items-start space-x-3 py-2 border-b border-gray-50 last:border-0">
+                        <div className="h-14 w-14 flex-shrink-0 rounded-md border border-gray-200 bg-gray-50 overflow-hidden">
+                          {item.listing.images && item.listing.images.length > 0 ? (
+                            <img
+                              src={item.listing.images[0]}
+                              alt={item.listing.title}
+                              className="h-full w-full object-cover"
+                            />
+                          ) : (
+                            <div className="h-full w-full flex items-center justify-center">
+                              <span className="text-xs text-gray-400">Нет фото</span>
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="text-sm font-medium text-gray-900 line-clamp-2 leading-snug mb-1">{item.listing.title}</div>
+                          <div className="text-xs text-gray-500">
+                            <span className="font-semibold text-gray-700">{item.quantity}</span> x {item.listing.price.toLocaleString('ru-RU')} ₸
                           </div>
-                        )}
-                        <div className="flex-1">
-                          <div className="text-sm font-medium text-gray-900 line-clamp-1">{item.listing.title}</div>
-                          <div className="text-xs text-gray-500">{item.quantity} x {item.listing.price.toLocaleString('ru-RU')} ₸</div>
+                        </div>
+                        <div className="text-sm font-semibold text-gray-900">
+                          {(item.quantity * item.listing.price).toLocaleString('ru-RU')} ₸
                         </div>
                       </div>
                     ))}
                   </div>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
+                  <div className="space-y-3 text-sm bg-gray-50 p-4 rounded-lg">
+                    <div className="flex justify-between text-gray-600">
                       <span>Промежуточный итог:</span>
-                      <span>{subtotal.toLocaleString('ru-RU')} ₸</span>
+                      <span className="font-medium text-gray-900">{subtotal.toLocaleString('ru-RU')} ₸</span>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex justify-between text-gray-600">
                       <span>Доставка:</span>
-                      <span>{shipping === 0 ? 'Бесплатно' : `${Number(shipping).toLocaleString('ru-RU')} ₸`}</span>
+                      <span className="font-medium text-green-600">{shipping === 0 ? 'Бесплатно' : `${Number(shipping).toLocaleString('ru-RU')} ₸`}</span>
                     </div>
                     {discount > 0 && (
-                      <div className="flex justify-between">
+                      <div className="flex justify-between text-gray-600">
                         <span>Скидка:</span>
-                        <span>-{discount.toLocaleString('ru-RU')} ₸</span>
+                        <span className="text-red-500">-{discount.toLocaleString('ru-RU')} ₸</span>
                       </div>
                     )}
-                    <div className="flex justify-between">
+                    <div className="flex justify-between text-gray-600">
                       <span>НДС (12%):</span>
-                      <span>{Number(tax).toFixed(2)} ₸</span>
+                      <span className="font-medium text-gray-900">{Number(tax).toFixed(2)} ₸</span>
                     </div>
-                    <Separator />
-                    <div className="flex justify-between font-semibold text-base">
-                      <span>Итого</span>
-                      <span className="text-blue-600">{total.toFixed(2)} ₸</span>
+                    <Separator className="my-2" />
+                    <div className="flex justify-between font-bold text-lg">
+                      <span>Итого:</span>
+                      <span className="text-[#FA8232]">{total.toLocaleString('ru-RU')} ₸</span>
                     </div>
                   </div>
-                  <Button 
+                  <Button
                     type="submit"
                     onClick={handleSubmit}
                     disabled={processing || cartItems.length === 0}
-                    className="mt-6 w-full bg-[#FA8232] uppercase text-white hover:bg-[#E97527] h-12"
+                    className="mt-6 w-full bg-[#FA8232] uppercase text-white hover:bg-[#E97527] h-12 font-bold shadow-md shadow-orange-100 transition-all hover:shadow-lg"
                   >
                     {processing ? 'Оформление...' : 'Оформить заказ'}
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </>
               )}

@@ -10,7 +10,7 @@ export default function OrderSuccess() {
       <Head title="Заказ успешно оформлен - Zalogal" />
       <Header />
       <div className="bg-[#F2F4F5] py-4">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Breadcrumbs
             breadcrumbs={[
               { title: 'Главная', href: '/' },
@@ -21,15 +21,15 @@ export default function OrderSuccess() {
           />
         </div>
       </div>
-      <div className="mx-auto max-w-7xl py-24 flex flex-col items-center justify-center min-h-[50vh]">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 md:py-24 flex flex-col items-center justify-center min-h-[50vh]">
         <div className="mb-8 flex flex-col items-center">
           <span className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gray-100 animate-scale-in">
             <svg width="48" height="48" viewBox="0 0 48 48" fill="none" className="checkmark-svg">
-              <path 
-                d="M16 25.5L22 31.5L33 19.5" 
-                stroke="#22C55E" 
-                strokeWidth="3" 
-                strokeLinecap="round" 
+              <path
+                d="M16 25.5L22 31.5L33 19.5"
+                stroke="#22C55E"
+                strokeWidth="3"
+                strokeLinecap="round"
                 strokeLinejoin="round"
                 className="checkmark-path"
                 strokeDasharray="30"

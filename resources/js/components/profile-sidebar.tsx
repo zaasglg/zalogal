@@ -17,7 +17,6 @@ const buyerMenuItems = [
     { icon: Package, label: 'История заказов', href: '/profile/orders' },
     { icon: MapPin, label: 'Карта & адрес', href: '/profile/address' },
     { icon: MessageSquare, label: 'Чат', href: '/profile/chat' },
-    { icon: Settings, label: 'Настройки', href: '/profile/settings' },
 ];
 
 const sellerMenuItems = [
@@ -26,13 +25,12 @@ const sellerMenuItems = [
     { icon: ShoppingBag, label: 'Заказы', href: '/profile/seller-orders' },
     { icon: MessageSquare, label: 'Чат', href: '/profile/chat' },
     { icon: Archive, label: 'Архив', href: '/profile/archive' },
-    { icon: Settings, label: 'Настройки', href: '/profile/settings' },
 ];
 
 export function ProfileSidebar() {
     const { url, props } = usePage();
     const auth = props.auth as { user: { id: number; name: string; email: string; role: string } | null };
-    
+
     const menuItems = auth.user?.role === 'seller' ? sellerMenuItems : buyerMenuItems;
 
     return (
